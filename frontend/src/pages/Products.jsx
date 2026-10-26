@@ -113,7 +113,7 @@ export default function Products({ user }) {
         <div className={`grid${loading ? ' is-loading' : ''}`}>
           {data.items.map((p, i) => (
             <article key={p.id} className="product" style={{ '--i': i }}>
-              <div className="thumb" aria-hidden="true">{p.name[0]}</div>
+              <div className="thumb" aria-hidden="true">{p.name[0].toUpperCase()}</div>
               <span className="tag">{p.category.name}</span>
               <h3>{p.name}</h3>
               <p className="muted clamp" style={{ margin: 0 }}>{p.description}</p>

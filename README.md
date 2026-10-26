@@ -20,6 +20,7 @@ pip install -r requirements.txt
 cp .env.example .env        # optional: only needed if you want to change settings
 python -m app.seed          # optional: load 5 demo categories + 25 demo products
 - [x] Configuration via `.env` files, with committed `.env.example` templates
+- [x] New minimal, responsive UI: light/dark theme, category chips, page-number pagination, loading placeholders, subtle animations (off when the system asks for reduced motion), mobile menu
 uvicorn app.main:app --reload --port 8000
 ```
 
@@ -128,7 +129,8 @@ frontend/
   .env.example    # frontend settings template (copy to .env)
   src/
     api.js        # fetch wrapper, handles token + 401
-    App.jsx       # nav + routes
+    App.jsx       # nav (with mobile menu) + routes
+    styles.css    # all styling: theme colours, layout, animations
     pages/        # Login, Products, ProductForm, Categories
 ```
 
@@ -143,6 +145,7 @@ frontend/
 - [x] 5 backend tests, all passing
 - [x] SQLite moved to its own `database/` folder; seed script with 5 categories and 25 demo products
 - [x] Configuration via `.env` files, with committed `.env.example` templates
+- [x] New minimal, responsive UI: light/dark theme, category chips, page-number pagination, loading placeholders, subtle animations (off when the system asks for reduced motion), mobile menu
 
 **Possible next steps**
 - [ ] Product images
