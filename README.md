@@ -148,10 +148,42 @@ frontend/
 - [x] New minimal, responsive UI: light/dark theme, category chips, page-number pagination, loading placeholders, subtle animations (off when the system asks for reduced motion), mobile menu
 
 **Possible next steps**
-- [ ] Product images
 - [ ] Product detail page
 - [ ] Delete products and categories
 - [ ] Sorting (price, newest)
-- [ ] Cart / orders
 - [ ] Roles (admin vs. customer) so only admins can edit the catalogue
 - [ ] Frontend tests
+
+## Future scope
+
+Larger features planned for later versions. Each one should come with its own tests added to `backend/tests/`.
+
+- [ ] 1. Product images
+- [ ] 2. Cart
+- [ ] 3. Payment (needs Cart)
+- [ ] 4. Feedback and reviews ("verified purchase" label needs Payment)
+
+### 1. Product images
+- Upload one or more images per product from the product form; show them on product cards (replacing the letter placeholder) and on the product detail page.
+- Backend: new `product_images` table (product, file path, sort order) and an upload endpoint that requires login.
+- Server-side checks: allowed file types (JPG, PNG, WebP), maximum file size.
+- Store files on disk locally for now; move to cloud storage (e.g. S3) for production.
+
+### 2. Cart
+- Add to cart from the listing and detail pages; change quantity or remove items; show a cart count in the header.
+- Backend: `cart_items` table linked to the logged-in user, so the cart is kept across devices.
+- Server-side checks: quantity must be at least 1 and not more than the product's stock.
+- Show the cart total, and warn if a product's price or stock changed since it was added.
+
+### 3. Payment
+- Checkout flow: cart → delivery address → payment → order confirmation.
+- Use a payment gateway (e.g. Razorpay or Stripe) in test mode first. Card details go straight to the gateway and are never stored by us.
+- Backend: `orders` and `order_items` tables. Prices are copied into the order at checkout so later price changes don't affect past orders.
+- Confirm payment on the server (gateway webhook or signature check) before marking an order as paid and reducing stock.
+- "My orders" page with order status.
+
+### 4. Feedback and reviews
+- Logged-in users can leave a 1–5 star rating and a written review on a product.
+- One review per user per product; users can edit or delete their own review.
+- Show average rating and review count on product cards and the detail page; allow sorting the listing by rating.
+- Server-side checks: rating 1–5, review length limits. Later: mark reviews from users who actually bought the product as "verified purchase" (needs payment and orders first).
