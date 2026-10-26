@@ -1,0 +1,23 @@
+<body>
+<iframe id="f" width="390" height="844" style="border:0"></iframe>
+<pre id="out">pending</pre>
+<script>
+const pages = ['/', '/login', '/categories']
+const results = []
+const f = document.getElementById('f')
+async function run() {
+  for (const p of pages) {
+    f.src = p
+    await new Promise(r => f.onload = r)
+    await new Promise(r => setTimeout(r, 2500))
+    const d = f.contentDocument
+    const wide = [...d.querySelectorAll('body *')]
+      .filter(el => el.getBoundingClientRect().right > 391 && !el.closest('.chips'))
+      .map(el => el.tagName + '.' + el.className + ' right=' + Math.round(el.getBoundingClientRect().right))
+    results.push(p + ' scrollWidth=' + d.documentElement.scrollWidth + ' cards=' + d.querySelectorAll('.product:not(.skeleton)').length + '\n  ' + wide.slice(0, 8).join('\n  '))
+  }
+  document.getElementById('out').textContent = 'DONE\n' + results.join('\n')
+}
+run()
+</script>
+</body>
